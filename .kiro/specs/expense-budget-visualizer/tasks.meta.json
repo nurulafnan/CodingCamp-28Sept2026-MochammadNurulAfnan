@@ -1,0 +1,210 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1. Scaffold project file structure": [
+      {
+        "executionId": "a629865b-6a79-40dd-bdbd-6ad52b184680",
+        "chatSessionId": "sess_4e22a347-acd8-43dc-a8d9-841062c6eb3f",
+        "timestamp": 1790981153268
+      }
+    ],
+    "2.1 Define the `Transaction` typedef and Storage module in `js/app.js`": [
+      {
+        "executionId": "54f15b3f-0049-4180-a891-c8894d17a0ba",
+        "chatSessionId": "sess_fa4068ab-9056-43f2-a7bb-3d20cdd5b7f1",
+        "timestamp": 1790981288245
+      },
+      {
+        "executionId": "54f15b3f-0049-4180-a891-c8894d17a0ba",
+        "chatSessionId": "sess_fa4068ab-9056-43f2-a7bb-3d20cdd5b7f1",
+        "timestamp": 1790981346791
+      },
+      {
+        "executionId": "010460ce-55b1-4673-920e-3ddfdd0c6868",
+        "chatSessionId": "sess_4a6c947b-1066-4936-9889-299da08afa37",
+        "timestamp": 1790981356877
+      },
+      {
+        "executionId": "010460ce-55b1-4673-920e-3ddfdd0c6868",
+        "chatSessionId": "sess_4a6c947b-1066-4936-9889-299da08afa37",
+        "timestamp": 1790981387289
+      }
+    ],
+    "2. Implement the Data Model and Storage Module": [
+      {
+        "executionId": "54f15b3f-0049-4180-a891-c8894d17a0ba",
+        "chatSessionId": "sess_fa4068ab-9056-43f2-a7bb-3d20cdd5b7f1",
+        "timestamp": 1790981346967
+      }
+    ],
+    "3. Implement the Validator": [
+      {
+        "executionId": "8f41e74f-3448-4d2c-8ac6-cad1de60061c",
+        "chatSessionId": "sess_6e0cf868-bbe4-4fcf-b08b-2a4db3609157",
+        "timestamp": 1790981432042
+      },
+      {
+        "executionId": "8f41e74f-3448-4d2c-8ac6-cad1de60061c",
+        "chatSessionId": "sess_6e0cf868-bbe4-4fcf-b08b-2a4db3609157",
+        "timestamp": 1790992726473
+      }
+    ],
+    "3.1 Implement the `validateForm(name, rawAmount, category)` pure function in `js/app.js`": [
+      {
+        "executionId": "8f41e74f-3448-4d2c-8ac6-cad1de60061c",
+        "chatSessionId": "sess_6e0cf868-bbe4-4fcf-b08b-2a4db3609157",
+        "timestamp": 1790981437746
+      },
+      {
+        "executionId": "8f41e74f-3448-4d2c-8ac6-cad1de60061c",
+        "chatSessionId": "sess_6e0cf868-bbe4-4fcf-b08b-2a4db3609157",
+        "timestamp": 1790992725990
+      },
+      {
+        "executionId": "d7df8e31-2ab7-4114-ad57-f9d0354bed41",
+        "chatSessionId": "sess_7259cc5e-9020-48e8-976f-807403b6db3d",
+        "timestamp": 1790992738227
+      },
+      {
+        "executionId": "d7df8e31-2ab7-4114-ad57-f9d0354bed41",
+        "chatSessionId": "sess_7259cc5e-9020-48e8-976f-807403b6db3d",
+        "timestamp": 1790992749157
+      }
+    ],
+    "4.1 Implement the in-memory state array and `addTransaction` in `js/app.js`": [
+      {
+        "executionId": "488aebf3-67b2-4a88-a075-53a3652447fc",
+        "chatSessionId": "sess_8de91616-f651-4b22-ad5b-17feb2323790",
+        "timestamp": 1790992791145
+      },
+      {
+        "executionId": "488aebf3-67b2-4a88-a075-53a3652447fc",
+        "chatSessionId": "sess_8de91616-f651-4b22-ad5b-17feb2323790",
+        "timestamp": 1790992839867
+      },
+      {
+        "executionId": "ec288c99-9266-4c63-9909-009653f1b66e",
+        "chatSessionId": "sess_eb6b16fc-d18b-4f6c-9a74-3b1b7449bb9b",
+        "timestamp": 1790992922670
+      },
+      {
+        "executionId": "ec288c99-9266-4c63-9909-009653f1b66e",
+        "chatSessionId": "sess_eb6b16fc-d18b-4f6c-9a74-3b1b7449bb9b",
+        "timestamp": 1790992960638
+      }
+    ],
+    "4.3 Implement `deleteTransaction(id)` and `initApp` in `js/app.js`": [
+      {
+        "executionId": "488aebf3-67b2-4a88-a075-53a3652447fc",
+        "chatSessionId": "sess_8de91616-f651-4b22-ad5b-17feb2323790",
+        "timestamp": 1790992859125
+      },
+      {
+        "executionId": "488aebf3-67b2-4a88-a075-53a3652447fc",
+        "chatSessionId": "sess_8de91616-f651-4b22-ad5b-17feb2323790",
+        "timestamp": 1790992908650
+      }
+    ],
+    "4. Implement the State Module": [
+      {
+        "executionId": "488aebf3-67b2-4a88-a075-53a3652447fc",
+        "chatSessionId": "sess_8de91616-f651-4b22-ad5b-17feb2323790",
+        "timestamp": 1790992908804
+      }
+    ],
+    "5. Checkpoint — core logic complete": [
+      {
+        "executionId": "f63ae30b-0446-4100-b903-0b583bdac446",
+        "chatSessionId": "sess_ddb1c0da-321a-448d-8c38-46144b406d4c",
+        "timestamp": 1790993024475
+      }
+    ],
+    "6.1 Implement `renderBalanceDisplay(transactions)` in `js/app.js`": [
+      {
+        "executionId": "cb191d2d-c267-4c46-ba52-1d92682250a1",
+        "chatSessionId": "sess_54968510-40f4-4f51-8dc8-9bc5318294b4",
+        "timestamp": 1790993060295
+      },
+      {
+        "executionId": "cb191d2d-c267-4c46-ba52-1d92682250a1",
+        "chatSessionId": "sess_54968510-40f4-4f51-8dc8-9bc5318294b4",
+        "timestamp": 1790993445508
+      },
+      {
+        "executionId": "f35d2999-098f-4ae6-bfb8-e1bf544c98c8",
+        "chatSessionId": "sess_eaa91de7-b33e-4aac-8e4c-1958f8c28fd5",
+        "timestamp": 1790993456208
+      },
+      {
+        "executionId": "f35d2999-098f-4ae6-bfb8-e1bf544c98c8",
+        "chatSessionId": "sess_eaa91de7-b33e-4aac-8e4c-1958f8c28fd5",
+        "timestamp": 1790993487396
+      }
+    ],
+    "6. Implement the Balance Display renderer": [
+      {
+        "executionId": "cb191d2d-c267-4c46-ba52-1d92682250a1",
+        "chatSessionId": "sess_54968510-40f4-4f51-8dc8-9bc5318294b4",
+        "timestamp": 1790993445683
+      }
+    ],
+    "7.1 Implement `renderTransactionList(transactions)` in `js/app.js`": [
+      {
+        "executionId": "e6144177-7f50-4cbc-a756-fee8be45cd73",
+        "chatSessionId": "sess_050ef1e4-3c83-4810-8d2f-e77892519eb4",
+        "timestamp": 1790993554604
+      },
+      {
+        "executionId": "e6144177-7f50-4cbc-a756-fee8be45cd73",
+        "chatSessionId": "sess_050ef1e4-3c83-4810-8d2f-e77892519eb4",
+        "timestamp": 1790997339587
+      },
+      {
+        "executionId": "faf07872-7c1f-4045-a722-a5b42d5b9562",
+        "chatSessionId": "sess_ce345eae-fcbb-4f2d-92c0-1e4a9a873c4d",
+        "timestamp": 1790997351406
+      },
+      {
+        "executionId": "faf07872-7c1f-4045-a722-a5b42d5b9562",
+        "chatSessionId": "sess_ce345eae-fcbb-4f2d-92c0-1e4a9a873c4d",
+        "timestamp": 1790997397334
+      }
+    ],
+    "7. Implement the Transaction List renderer": [
+      {
+        "executionId": "e6144177-7f50-4cbc-a756-fee8be45cd73",
+        "chatSessionId": "sess_050ef1e4-3c83-4810-8d2f-e77892519eb4",
+        "timestamp": 1790997339717
+      }
+    ],
+    "8. Implement the Input Form and wire validation": [
+      {
+        "executionId": "e62e60c5-f069-414d-9af7-2b8de287c406",
+        "chatSessionId": "sess_12da8a54-70f5-486e-86ce-f12613b91f1d",
+        "timestamp": 1790997457251
+      },
+      {
+        "executionId": "e62e60c5-f069-414d-9af7-2b8de287c406",
+        "chatSessionId": "sess_12da8a54-70f5-486e-86ce-f12613b91f1d",
+        "timestamp": 1790997521656
+      }
+    ],
+    "8.1 Build the Input Form HTML and hook up the submit handler in `js/app.js`": [
+      {
+        "executionId": "e62e60c5-f069-414d-9af7-2b8de287c406",
+        "chatSessionId": "sess_12da8a54-70f5-486e-86ce-f12613b91f1d",
+        "timestamp": 1790997461900
+      },
+      {
+        "executionId": "e62e60c5-f069-414d-9af7-2b8de287c406",
+        "chatSessionId": "sess_12da8a54-70f5-486e-86ce-f12613b91f1d",
+        "timestamp": 1790997521479
+      },
+      {
+        "executionId": "1a5e5f8e-b2e2-4d76-813a-8114cef862d3",
+        "chatSessionId": "sess_0146f61c-6c4e-435f-9227-b4542a576c8b",
+        "timestamp": 1790997533271
+      }
+    ]
+  }
+}
