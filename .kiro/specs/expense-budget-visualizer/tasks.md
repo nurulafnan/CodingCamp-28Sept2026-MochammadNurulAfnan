@@ -113,7 +113,7 @@ Implement a fully client-side single-page web application with three files (`ind
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.8_
 
 - [x] 8. Implement the Input Form and wire validation
-  - [-] 8.1 Build the Input Form HTML and hook up the submit handler in `js/app.js`
+  - [x] 8.1 Build the Input Form HTML and hook up the submit handler in `js/app.js`
     - Add to `index.html`: `<form id="input-form">` containing `<input id="item-name" type="text" maxlength="100">`, `<input id="amount" type="number" step="0.01" min="0.01" max="999999999.99">`, `<select id="category">` with options Food/Transport/Fun, `<button type="submit">Add Transaction</button>`, and `<div id="form-error" hidden>`
     - On `submit` event: call `validateForm(name, rawAmount, category)`
       - If invalid: populate `#form-error` with the error messages and set `hidden = false`; do not create a transaction
@@ -121,8 +121,8 @@ Implement a fully client-side single-page web application with three files (`ind
     - Implement `resetForm()`: clear `#item-name` and `#amount`; reset `#category` to its first option (Food)
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6_
 
-- [~] 9. Implement the Category Pie Chart renderer
-  - [~] 9.1 Add the chart canvas to `index.html` and implement `renderChart(transactions)` in `js/app.js`
+- [x] 9. Implement the Category Pie Chart renderer
+  - [x] 9.1 Add the chart canvas to `index.html` and implement `renderChart(transactions)` in `js/app.js`
     - Add `<canvas id="chart-canvas">` and `<p id="chart-placeholder">` to `index.html`
     - Declare a module-level `let chartInstance = null`
     - Guard against CDN failure: if `typeof Chart === "undefined"`, show `#chart-placeholder` with "Chart unavailable" and return
@@ -138,11 +138,11 @@ Implement a fully client-side single-page web application with three files (`ind
     - For arbitrary non-empty transaction arrays, extract the percentage-computation logic (pure function) and assert `sum(percentages) === 100.0`
     - **Validates: Requirements 4.2**
 
-- [~] 10. Checkpoint — all renderers wired
+- [x] 10. Checkpoint — all renderers wired
   - Ensure `initApp()` is called on `DOMContentLoaded`, and that every mutation (`addTransaction`, `deleteTransaction`) calls all three render functions. Ask the user if any questions arise before proceeding to styling.
 
-- [~] 11. Apply CSS layout and responsive styles
-  - [~] 11.1 Write `css/style.css` with layout, typography, colour, and responsive rules
+- [x] 11. Apply CSS layout and responsive styles
+  - [-] 11.1 Write `css/style.css` with layout, typography, colour, and responsive rules
     - Use a single-column layout centred on the page; stack balance → form → list → chart vertically
     - Set a minimum font size of 16 px for all text content
     - Choose foreground/background colour pairs that meet WCAG 4.5:1 contrast ratio (e.g. dark text on light background)

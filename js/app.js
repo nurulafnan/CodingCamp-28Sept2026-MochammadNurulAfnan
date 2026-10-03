@@ -242,7 +242,7 @@ function addTransaction({ name, amount, category }) {
   // --- 5. Render pipeline ---
   renderTransactionList(transactions);
   renderBalanceDisplay(transactions);
-  if (typeof renderChart === 'function') renderChart(transactions);
+  renderChart(transactions);
 }
 
 /**
@@ -285,7 +285,7 @@ function deleteTransaction(id) {
   // --- 5. Render pipeline ---
   renderTransactionList(transactions);
   renderBalanceDisplay(transactions);
-  if (typeof renderChart === 'function') renderChart(transactions);
+  renderChart(transactions);
 }
 
 // ---------------------------------------------------------------------------
@@ -351,6 +351,7 @@ function renderTransactionList(transactions) {
     // Category badge (Requirement 2.2)
     const categorySpan = document.createElement('span');
     categorySpan.className = 'category-badge';
+    categorySpan.dataset.category = tx.category; // used by CSS for per-category colours
     categorySpan.textContent = tx.category;
 
     // Delete button — carries the transaction id as a data attribute (Requirement 2.5, 2.6)
@@ -491,6 +492,179 @@ function renderBalanceDisplay(transactions) {
 }
 
 // ---------------------------------------------------------------------------
+// Pie Chart Renderer
+// ---------------------------------------------------------------------------
+
+/** @type {import('chart.js').Chart | null} Active Chart.js instance, or null when no chart exists */
+let chartInstance = null;
+
+/** Colours assigned to each category — consistent across re-renders */
+const CATEGORY_COLOURS = {
+  Food:      '#FF6384',
+  Transport: '#36A2EB',
+  Fun:       '#FFCE56',
+};
+
+/**
+ * Aggregates transaction amounts by category.
+ *
+ * @param {Transaction[]} txns
+ * @returns {{ category: string, total: number }[]}  Only categories with at least one transaction
+ */
+function aggregateByCategory(txns) {
+  /** @type {Record<string, number>} */
+  const totals = {};
+  txns.forEach(t => {
+    if (typeof t.amount === 'number' && isFinite(t.amount)) {
+      totals[t.category] = (totals[t.category] || 0) + t.amount;
+    }
+  });
+  return Object.entries(totals).map(([category, total]) => ({ category, total }));
+}
+
+/**
+ * Computes per-category percentage shares rounded to 1 decimal place.
+ *
+ * Rounding redistribution (Requirement 4.2):
+ *  1. Compute raw percentages: `(categoryTotal / grandTotal) * 100`
+ *  2. Round each to 1 dp
+ *  3. Add the entire rounding error (`100.0 - sum(rounded)`) to the largest slice
+ *
+ * @param {{ category: string, total: number }[]} aggregated
+ * @returns {{ category: string, total: number, percentage: number }[]}
+ */
+function computePercentages(aggregated) {
+  const grandTotal = aggregated.reduce((sum, item) => sum + item.total, 0);
+
+  if (grandTotal === 0) {
+    return aggregated.map(item => ({ ...item, percentage: 0 }));
+  }
+
+  const withRaw = aggregated.map(item => ({
+    ...item,
+    percentage: Math.round((item.total / grandTotal) * 1000) / 10, // rounds to 1 dp
+  }));
+
+  // Compute rounding error and add it to the largest slice
+  const roundedSum = withRaw.reduce((sum, item) => sum + item.percentage, 0);
+  const remainder = Math.round((100.0 - roundedSum) * 10) / 10; // keep 1 dp precision
+
+  if (remainder !== 0) {
+    // Find the index of the largest raw total
+    let maxIdx = 0;
+    for (let i = 1; i < withRaw.length; i++) {
+      if (withRaw[i].total > withRaw[maxIdx].total) {
+        maxIdx = i;
+      }
+    }
+    withRaw[maxIdx].percentage = Math.round((withRaw[maxIdx].percentage + remainder) * 10) / 10;
+  }
+
+  return withRaw;
+}
+
+/**
+ * Renders (or updates) the spending pie chart using Chart.js (Requirement 4.1–4.7).
+ *
+ * Behaviour:
+ *  - Guards against CDN failure: shows "#chart-placeholder" with "Chart unavailable" if
+ *    Chart.js did not load (Requirement 4.7 / Error Handling)
+ *  - Empty state: destroys any existing chart, shows "#chart-placeholder" with
+ *    "No data available", hides canvas (Requirement 4.5)
+ *  - Non-empty state: aggregates amounts by category, computes percentages with rounding
+ *    redistribution so they sum to exactly 100.0% (Requirement 4.2), then either updates
+ *    the existing Chart instance or creates a new one (Requirement 4.3, 4.4)
+ *  - Each segment is labelled with category name and its percentage (Requirement 4.2)
+ *  - Zero-value segments (last transaction for a category deleted) are never rendered
+ *    because aggregation only includes categories with a positive total (Requirement 4.6)
+ *
+ * @param {Transaction[]} transactions - Current in-memory state
+ */
+function renderChart(transactions) {
+  const canvas = document.getElementById('chart-canvas');
+  const placeholder = document.getElementById('chart-placeholder');
+
+  // --- Guard: Chart.js not loaded (CDN failure) ---
+  if (typeof Chart === 'undefined') {
+    if (canvas) canvas.hidden = true;
+    if (placeholder) {
+      placeholder.textContent = 'Chart unavailable.';
+      placeholder.hidden = false;
+    }
+    return;
+  }
+
+  // --- Empty state (Requirement 4.5) ---
+  if (transactions.length === 0) {
+    if (chartInstance !== null) {
+      chartInstance.destroy();
+      chartInstance = null;
+    }
+    if (canvas) canvas.hidden = true;
+    if (placeholder) {
+      placeholder.textContent = 'No data available.';
+      placeholder.hidden = false;
+    }
+    return;
+  }
+
+  // --- Data preparation ---
+  const aggregated = aggregateByCategory(transactions);
+  const slices = computePercentages(aggregated);
+
+  const labels = slices.map(s => `${s.category} (${s.percentage}%)`);
+  const data   = slices.map(s => s.total);
+  const colors = slices.map(s => CATEGORY_COLOURS[s.category] || '#AAAAAA');
+
+  // Show canvas, hide placeholder
+  if (canvas) canvas.hidden = false;
+  if (placeholder) placeholder.hidden = true;
+
+  // --- Update existing chart or create a new one ---
+  if (chartInstance !== null) {
+    // Requirement 4.3 / 4.4: update without destroying
+    chartInstance.data.labels = labels;
+    chartInstance.data.datasets[0].data = data;
+    chartInstance.data.datasets[0].backgroundColor = colors;
+    chartInstance.update();
+  } else {
+    // First render — create the Chart instance
+    chartInstance = new Chart(canvas, {
+      type: 'pie',
+      data: {
+        labels,
+        datasets: [{
+          data,
+          backgroundColor: colors,
+          borderWidth: 2,
+          borderColor: '#ffffff',
+        }],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              font: { size: 14 },
+              padding: 16,
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const slice = slices[context.dataIndex];
+                return ` ${slice.category}: $${slice.total.toFixed(2)} (${slice.percentage}%)`;
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+}
+
+// ---------------------------------------------------------------------------
 // App Initialisation
 // ---------------------------------------------------------------------------
 
@@ -511,7 +685,7 @@ function initApp() {
   // --- 2. Render pipeline ---
   renderTransactionList(transactions);
   renderBalanceDisplay(transactions);
-  if (typeof renderChart === 'function') renderChart(transactions);
+  renderChart(transactions);
 }
 
 // ---------------------------------------------------------------------------

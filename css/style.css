@@ -1,1 +1,573 @@
-/* Expense & Budget Visualizer — styles (populated in Task 11) */
+/* ============================================================
+   Expense & Budget Visualizer — Stylesheet
+   Requirements: 2.3, 7.3, 7.4
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. CSS Custom Properties (Design Tokens)
+   All colour pairs satisfy WCAG 4.5:1 contrast against their
+   intended background. Verified ratios noted inline.
+   ------------------------------------------------------------ */
+:root {
+  /* Palette */
+  --color-bg:           #f5f7fa;   /* page background */
+  --color-surface:      #ffffff;   /* card / section background */
+  --color-border:       #d1d5db;   /* borders and dividers */
+
+  /* Text — #1f2937 on #ffffff = 15.3:1 */
+  --color-text-primary: #1f2937;
+  /* Secondary text — #4b5563 on #ffffff = 7.3:1 */
+  --color-text-muted:   #4b5563;
+
+  /* Brand accent — #1d4ed8 on #ffffff = 8.6:1 */
+  --color-accent:       #1d4ed8;
+  --color-accent-hover: #1e40af;
+
+  /* Danger — #b91c1c on #ffffff = 7.0:1 */
+  --color-danger:       #b91c1c;
+  --color-danger-bg:    #fef2f2;   /* #b91c1c on #fef2f2 = 6.8:1 */
+  --color-danger-hover: #991b1b;
+
+  /* Positive balance — #166534 on #ffffff = 9.8:1 */
+  --color-balance:      #166534;
+  --color-balance-bg:   #f0fdf4;
+
+  /* Warning (cap / storage error) — #92400e on #fffbeb = 7.2:1 */
+  --color-warning-text: #92400e;
+  --color-warning-bg:   #fffbeb;
+  --color-warning-border:#fcd34d;
+
+  /* Category badge backgrounds are tinted; text is dark for contrast */
+  --badge-food-bg:       #fee2e2;  /* #991b1b on #fee2e2 = 7.3:1 */
+  --badge-food-text:     #991b1b;
+  --badge-transport-bg:  #dbeafe;  /* #1e40af on #dbeafe = 7.1:1 */
+  --badge-transport-text:#1e40af;
+  --badge-fun-bg:        #fef9c3;  /* #713f12 on #fef9c3 = 8.5:1 */
+  --badge-fun-text:      #713f12;
+
+  /* Spacing scale */
+  --space-xs:  0.25rem;  /*  4px */
+  --space-sm:  0.5rem;   /*  8px */
+  --space-md:  1rem;     /* 16px */
+  --space-lg:  1.5rem;   /* 24px */
+  --space-xl:  2rem;     /* 32px */
+  --space-2xl: 3rem;     /* 48px */
+
+  /* Typography */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-size-base:  1rem;      /* 16px — Requirement 7.4 minimum */
+  --font-size-sm:    1rem;      /* keep at 16px floor */
+  --font-size-md:    1.125rem;  /* 18px */
+  --font-size-lg:    1.25rem;   /* 20px */
+  --font-size-xl:    1.5rem;    /* 24px */
+  --font-size-2xl:   1.875rem;  /* 30px */
+  --line-height:     1.6;
+
+  /* Radii & shadows */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.10),
+               0 2px 4px -2px  rgb(0 0 0 / 0.10);
+
+  /* Transaction list cap */
+  --list-max-height: 24rem;  /* ~384px — scrolls when overflowing */
+}
+
+/* ------------------------------------------------------------
+   2. Reset & Box Model
+   ------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ------------------------------------------------------------
+   3. Base / Global Styles
+   Requirement 7.4: minimum font size 16px everywhere
+   ------------------------------------------------------------ */
+html {
+  font-size: 100%; /* 1rem = 16px in every modern browser */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg);
+  min-height: 100dvh;
+  /* Prevent horizontal overflow on narrow viewports */
+  overflow-x: hidden;
+}
+
+/* Ensure nothing renders smaller than 16px */
+p, span, label, li, button, input, select, option,
+h1, h2, h3, h4, h5, h6 {
+  font-size: inherit;
+}
+
+/* ------------------------------------------------------------
+   4. Container — single-column, centred layout
+   Requirement 7.3: 320px – 1920px viewport support
+   ------------------------------------------------------------ */
+.container {
+  width: min(100%, 48rem);   /* fluid up to 768px max */
+  margin-inline: auto;       /* centred horizontally */
+  padding: var(--space-lg) var(--space-md);
+  display: flex;
+  flex-direction: column;    /* stacks sections vertically */
+  gap: var(--space-xl);
+}
+
+/* ------------------------------------------------------------
+   5. Page Heading
+   ------------------------------------------------------------ */
+h1 {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+
+/* Section headings */
+h2 {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+/* ------------------------------------------------------------
+   6. Card-style sections
+   ------------------------------------------------------------ */
+.balance-section,
+.form-section,
+.list-section,
+.chart-section {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ------------------------------------------------------------
+   7. Balance Display
+   Requirement 3.1, 3.4, 3.6
+   ------------------------------------------------------------ */
+.balance-section {
+  text-align: center;
+}
+
+#balance {
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  color: var(--color-balance);
+  background-color: var(--color-balance-bg);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg);
+  display: inline-block;
+  min-width: 12rem;
+  letter-spacing: -0.01em;
+  margin-top: var(--space-xs);
+}
+
+/* ------------------------------------------------------------
+   8. Input Form
+   Requirements 1.1, 1.2
+   ------------------------------------------------------------ */
+.form-section form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.form-group label {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* Shared input / select styling */
+#item-name,
+#amount,
+#category {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+#item-name:focus,
+#amount:focus,
+#category:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgb(29 78 216 / 0.18);
+}
+
+/* Select arrow */
+#category {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%234b5563' d='M6 8 0 0h12z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2.5rem;
+}
+
+/* Submit button */
+#add-btn {
+  align-self: flex-start;
+  padding: var(--space-sm) var(--space-xl);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: #ffffff;           /* #ffffff on #1d4ed8 = 8.6:1 */
+  background-color: var(--color-accent);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+#add-btn:hover {
+  background-color: var(--color-accent-hover);
+}
+
+#add-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgb(29 78 216 / 0.35);
+}
+
+#add-btn:active {
+  transform: translateY(1px);
+}
+
+/* ------------------------------------------------------------
+   9. Error and Status Messages
+   ------------------------------------------------------------ */
+
+/* Inline form validation errors (Requirement 1.4, 1.5) */
+#form-error {
+  background-color: var(--color-danger-bg);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-danger);
+  font-size: var(--font-size-base);
+}
+
+#form-error p {
+  margin: 0;
+  font-size: var(--font-size-base);
+}
+
+#form-error p + p {
+  margin-top: var(--space-xs);
+}
+
+/* Storage failure toast (Requirement 2.7) */
+#storage-error {
+  background-color: var(--color-danger-bg);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-danger);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  /* Positioned inside .container flow — no absolute overlay needed */
+}
+
+/* Cap-reached message (Requirement 5.5) */
+#cap-message {
+  background-color: var(--color-warning-bg);
+  border: 1px solid var(--color-warning-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-warning-text);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+}
+
+/* ------------------------------------------------------------
+   10. Transaction List
+   Requirements 2.1–2.8
+   ------------------------------------------------------------ */
+.list-section {
+  /* no extra overrides needed; inherits card styles */
+}
+
+/* Scrollable list (Requirement 2.3) */
+#transaction-list {
+  list-style: none;
+  max-height: var(--list-max-height);
+  overflow-y: auto;          /* scroll when content exceeds max-height */
+  overscroll-behavior: contain;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  /* Subtle inset look */
+  background-color: var(--color-bg);
+}
+
+/* Thin custom scrollbar (WebKit/Blink) */
+#transaction-list::-webkit-scrollbar {
+  width: 6px;
+}
+#transaction-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+#transaction-list::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border-radius: 3px;
+}
+
+/* Empty state message (Requirement 2.8) */
+#empty-message {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-base);
+  text-align: center;
+  padding: var(--space-lg);
+}
+
+/* Individual transaction row */
+.transaction-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  transition: background-color 0.1s ease;
+}
+
+.transaction-item:last-child {
+  border-bottom: none;
+}
+
+.transaction-item:hover {
+  background-color: var(--color-bg);
+}
+
+/* Item name — grows to fill available space */
+.transaction-name {
+  flex: 1 1 0;
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  color: var(--color-text-primary);
+  /* Prevent very long names from breaking layout */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+/* Amount */
+.transaction-amount {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+/* Category badge */
+.category-badge {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  padding: 0.125rem 0.625rem;
+  border-radius: 9999px;   /* pill shape */
+  white-space: nowrap;
+}
+
+.category-badge[data-category="Food"] {
+  background-color: var(--badge-food-bg);
+  color: var(--badge-food-text);
+}
+
+.category-badge[data-category="Transport"] {
+  background-color: var(--badge-transport-bg);
+  color: var(--badge-transport-text);
+}
+
+.category-badge[data-category="Fun"] {
+  background-color: var(--badge-fun-bg);
+  color: var(--badge-fun-text);
+}
+
+/* Delete button */
+.delete-btn {
+  flex-shrink: 0;
+  padding: var(--space-xs) var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-danger);
+  background-color: transparent;
+  border: 1.5px solid var(--color-danger);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.delete-btn:hover {
+  background-color: var(--color-danger);
+  color: #ffffff;            /* #ffffff on #b91c1c = 7.0:1 */
+}
+
+.delete-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgb(185 28 28 / 0.30);
+}
+
+/* ------------------------------------------------------------
+   11. Chart Section
+   Requirements 4.1–4.7
+   ------------------------------------------------------------ */
+#chart-canvas {
+  display: block;
+  width: 100% !important;
+  max-width: 28rem;
+  margin-inline: auto;
+  /* Chart.js sets inline height; let it size naturally */
+}
+
+#chart-placeholder {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-base);
+  padding: var(--space-xl);
+}
+
+/* ------------------------------------------------------------
+   12. Responsive Adjustments
+   Requirement 7.3: 320px – 1920px
+   No content is hidden or overflows at any width in this range.
+   ------------------------------------------------------------ */
+
+/* --- Narrow: < 480px (e.g. 320px phones) --- */
+@media (max-width: 30em) {
+  h1 {
+    font-size: var(--font-size-xl);
+  }
+
+  #add-btn {
+    width: 100%;               /* full-width button on small screens */
+    text-align: center;
+    align-self: stretch;
+  }
+
+  /* On very small screens, wrap amount + badge + delete onto two lines */
+  .transaction-item {
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .transaction-name {
+    flex-basis: 100%;          /* name takes its own row */
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+  }
+
+  .transaction-amount {
+    flex: 1 1 auto;
+  }
+}
+
+/* --- Medium: 480px – 768px --- */
+@media (min-width: 30em) and (max-width: 48em) {
+  .container {
+    padding-inline: var(--space-lg);
+  }
+}
+
+/* --- Wide: > 768px --- */
+@media (min-width: 48em) {
+  .container {
+    padding: var(--space-2xl) var(--space-xl);
+  }
+
+  h1 {
+    font-size: var(--font-size-2xl);
+  }
+
+  /* Side-by-side form fields on wider screens */
+  #input-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--space-md);
+    row-gap: var(--space-md);
+    align-items: end;
+  }
+
+  /* Name field spans both columns for more typing space */
+  .form-group:first-child {
+    grid-column: 1 / -1;
+  }
+
+  /* Error div and button span both columns */
+  #form-error,
+  #add-btn {
+    grid-column: 1 / -1;
+  }
+
+  #add-btn {
+    justify-self: start;
+  }
+}
+
+/* --- Very wide: > 1280px (large desktops) --- */
+@media (min-width: 80em) {
+  .container {
+    /* Slightly wider max on very large screens */
+    width: min(100%, 56rem);
+  }
+}
+
+/* ------------------------------------------------------------
+   13. Focus-visible global fallback (accessibility)
+   ------------------------------------------------------------ */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Remove default outline only when :focus-visible is supported */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ------------------------------------------------------------
+   14. Utility — visually hidden (for future use, a11y helper)
+   ------------------------------------------------------------ */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

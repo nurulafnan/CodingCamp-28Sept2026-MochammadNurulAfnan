@@ -204,6 +204,71 @@
         "executionId": "1a5e5f8e-b2e2-4d76-813a-8114cef862d3",
         "chatSessionId": "sess_0146f61c-6c4e-435f-9227-b4542a576c8b",
         "timestamp": 1790997533271
+      },
+      {
+        "executionId": "1a5e5f8e-b2e2-4d76-813a-8114cef862d3",
+        "chatSessionId": "sess_0146f61c-6c4e-435f-9227-b4542a576c8b",
+        "timestamp": 1790997565386
+      }
+    ],
+    "9. Implement the Category Pie Chart renderer": [
+      {
+        "executionId": "b7bf2fd6-001a-4373-9bec-93b11eb6e316",
+        "chatSessionId": "sess_c587a610-c232-4325-92b3-baa88350aacf",
+        "timestamp": 1790997611029
+      },
+      {
+        "executionId": "b7bf2fd6-001a-4373-9bec-93b11eb6e316",
+        "chatSessionId": "sess_c587a610-c232-4325-92b3-baa88350aacf",
+        "timestamp": 1790997757438
+      }
+    ],
+    "9.1 Add the chart canvas to `index.html` and implement `renderChart(transactions)` in `js/app.js`": [
+      {
+        "executionId": "b7bf2fd6-001a-4373-9bec-93b11eb6e316",
+        "chatSessionId": "sess_c587a610-c232-4325-92b3-baa88350aacf",
+        "timestamp": 1790997615469
+      },
+      {
+        "executionId": "b7bf2fd6-001a-4373-9bec-93b11eb6e316",
+        "chatSessionId": "sess_c587a610-c232-4325-92b3-baa88350aacf",
+        "timestamp": 1790997757098
+      }
+    ],
+    "10. Checkpoint — all renderers wired": [
+      {
+        "executionId": "fbbb56e4-be65-4529-893a-eaaaaedb1674",
+        "chatSessionId": "sess_12a9ea90-afdc-4d24-a5c6-b73122246d28",
+        "timestamp": 1790997839434
+      }
+    ],
+    "11. Apply CSS layout and responsive styles": [
+      {
+        "executionId": "81606369-3e8e-4036-9e55-d6f19df4a5c3",
+        "chatSessionId": "sess_b745952c-e85d-4cdf-bbda-42cfea817a17",
+        "timestamp": 1790997896071
+      },
+      {
+        "executionId": "81606369-3e8e-4036-9e55-d6f19df4a5c3",
+        "chatSessionId": "sess_b745952c-e85d-4cdf-bbda-42cfea817a17",
+        "timestamp": 1790998043351
+      }
+    ],
+    "11.1 Write `css/style.css` with layout, typography, colour, and responsive rules": [
+      {
+        "executionId": "81606369-3e8e-4036-9e55-d6f19df4a5c3",
+        "chatSessionId": "sess_b745952c-e85d-4cdf-bbda-42cfea817a17",
+        "timestamp": 1790997900792
+      },
+      {
+        "executionId": "81606369-3e8e-4036-9e55-d6f19df4a5c3",
+        "chatSessionId": "sess_b745952c-e85d-4cdf-bbda-42cfea817a17",
+        "timestamp": 1790998043154
+      },
+      {
+        "executionId": "e2ba857a-842f-4244-98f4-dca6557ab945",
+        "chatSessionId": "sess_ab6e221a-8d4d-4629-bd76-0d8844c75548",
+        "timestamp": 1790998054881
       }
     ]
   }
